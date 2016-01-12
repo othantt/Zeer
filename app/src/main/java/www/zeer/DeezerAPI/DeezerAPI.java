@@ -27,21 +27,14 @@ public class DeezerAPI {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
-                        //Log.d("void", "Response is: " + response);
-                        String line = "var checkForm = '00e4ab5e9c3b3755b87d83fd0958f95b';";
-                        //Log.d("Test regexp", line.split("heck"));
-                        String leftDelimiter = "var check";
-                        String rightDelimiter = "m = '";
-                        Integer leftDelimiterPos = response.indexOf(leftDelimiter);
-                        Integer rightDelimiterPos = response.indexOf(rightDelimiter);
-                        Log.d("Left pos", leftDelimiterPos.toString());
-                        Log.d("Right pos", rightDelimiterPos.toString());
-                        Log.d("Substring", "(" + response.substring(leftDelimiterPos, rightDelimiterPos) + ")");
-                        //_APIToken = response.substring(response.indexOf("checkForm"), response.indexOf("Form"));
-                        //Log.d("Token", "(" + _APIToken + ")");
-                        //Log.d("Response lenght", "(" + response.length()+")");
-                        //_APIToken = response.substring(response.indexOf("checkForm = '"), response.indexOf("'"));
+                        // First, we extract the line containing the token from the whole webpage
+                        String tokenLineStartingPattern = "checkForm = '";
+                        Integer tokenLinePosition = response.indexOf(tokenLineStartingPattern);
+                        String tokenLine = response.substring(tokenLinePosition, tokenLinePosition+47);
+
+                        // Second, we extract the 32 leters and numbers of the token from the line containing it
+                        _APIToken = tokenLine.substring(tokenLine.indexOf("checkForm = '")+13, tokenLine.indexOf("';"));
+                        Log.d("Deezer API token", "(" + _APIToken + ")");
                     }
                 }, new Response.ErrorListener() {
             @Override
