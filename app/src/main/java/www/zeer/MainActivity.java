@@ -23,8 +23,8 @@ public class MainActivity extends FragmentActivity {
         mViewPager = (ViewPager) findViewById(R.id.pager);
 
         mViewPager.setAdapter(mMainActivityPagerAdapter);
-
-        DeezerAPI deezerAPI = new DeezerAPI();
-        deezerAPI.updateAPIToken();
+        mViewPager.setCurrentItem(1);
+        DeezerAPI d = new DeezerAPI();
+        d.updateAPIToken();
     }
 }

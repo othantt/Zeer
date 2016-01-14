@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    
+    >
+
+    <ImageView
+        android:id="@+id/cover_album"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+
+        android:src="@drawable/cover"
+        android:contentDescription="album_cov"/>
+
+    <TextView
+        android:id="@+id/song_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/cover_album"
+        android:layout_toRightOf="@+id/cover_album"
+        android:paddingTop="5dp"
+        android:paddingLeft="20dp"
+        android:maxLines="1"
+        android:text="Redrorected"
+        android:textSize="19dp" />
+
+    <TextView
+        android:id="@+id/album_artist_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/song_name"
+        android:layout_below="@+id/song_name"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="20dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="Album - Snoop Dog"
+        android:textIsSelectable="false"
+        android:textSize="16sp" />
+
+</RelativeLayout>
