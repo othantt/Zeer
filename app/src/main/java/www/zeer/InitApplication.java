@@ -1,7 +1,6 @@
 package www.zeer;
 
 import android.app.Application;
-import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -16,7 +15,6 @@ public class InitApplication extends Application{
     public void onCreate() {
         super.onCreate();
         mInstance = this;
-        Log.e("void", "Response is: ONCREATE" );
     }
 
     public static synchronized InitApplication getInstance() {
@@ -24,7 +22,6 @@ public class InitApplication extends Application{
     }
 
     public RequestQueue getRequestQueue(){
-        Log.e("void", "Response is: REQQUE");
         return Volley.newRequestQueue(getApplicationContext());
     }
 }
