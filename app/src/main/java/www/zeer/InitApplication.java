@@ -1,9 +1,10 @@
 package www.zeer;
 
 import android.app.Application;
-
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+
+import www.zeer.DeezerAPI.DeezerAPI;
 
 /**
  * Created by root on 1/12/16.
@@ -15,6 +16,8 @@ public class InitApplication extends Application{
     public void onCreate() {
         super.onCreate();
         mInstance = this;
+
+        //DeezerAPI.updateAPIToken(getApplicationContext());
     }
 
     public static synchronized InitApplication getInstance() {

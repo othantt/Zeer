@@ -5,6 +5,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import www.zeer.Audio.Song;
 import www.zeer.DeezerAPI.DeezerAPI;
 
 public class MainActivity extends FragmentActivity {
@@ -24,7 +25,7 @@ public class MainActivity extends FragmentActivity {
 
         mViewPager.setAdapter(mMainActivityPagerAdapter);
 
-        DeezerAPI deezerAPI = new DeezerAPI();
-        deezerAPI.updateAPIToken();
+        Song testSong = new Song(94488788);
+        testSong.getID();
     }
 }
