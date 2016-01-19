@@ -13,6 +13,7 @@ import com.android.volley.request.StringRequest;
 import com.android.volley.toolbox.VolleyTickle;
 
 import www.zeer.InitApplication;
+import www.zeer.SearchFragmentPackage.StringResponseListener;
 
 /**
  * Created by root on 1/12/16.
@@ -25,19 +26,7 @@ public class DeezerAPI {
         Log.d("updateAPIToken()", "Updating temporary API token.");
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, "http://www.deezer.com/",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // First, we extract the line containing the token from the whole webpage
-                        String tokenLineStartingPattern = "checkForm = '";
-                        Integer tokenLinePosition = response.indexOf(tokenLineStartingPattern);
-                        String tokenLine = response.substring(tokenLinePosition, tokenLinePosition+47);
-
-                        // Second, we extract the 32 letters and numbers of the token from the line containing it
-                        _APIToken = tokenLine.substring(tokenLine.indexOf("checkForm = '")+13, tokenLine.indexOf("';"));
-                        Log.d("Deezer API token", "(" + _APIToken + ")");
-                    }
-                }, new Response.ErrorListener() {
+                new StringResponseListener(), new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("updateAPIToken()", "Error fetching API token!");
@@ -71,12 +60,22 @@ public class DeezerAPI {
     }
 
     /* Accessor */
-    public static String getAPIToken(){
-        updateAPIToken();
-        while(_APIToken == null) {
-            Log.e("getAPIToken()", "_APIToken == null");
-            SystemClock.sleep(1000);
+
+    Thread thread = new Thread() {
+        @Override
+        public void run() {
+            try {
+                while(_APIToken == null) {
+                    sleep(1000);
+                    updateAPIToken();
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
+    };
+
+    public static String getAPIToken(){
         return _APIToken;
     }
 }
