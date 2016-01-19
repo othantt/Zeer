@@ -26,7 +26,7 @@ public class MainActivityPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position){
 
-        Log.e("POS", ""+position);
+        //Log.e("POS", ""+position);
         if(position == 1)
             return SearchFragment.newInstance();
         else if(position == 0)

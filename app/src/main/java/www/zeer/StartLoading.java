@@ -32,16 +32,10 @@ public class StartLoading extends FragmentActivity implements Response.Listener{
         setContentView(R.layout.activity_start_loading);
 
         DeezerAPI.updateAPIToken(this);
-
-        //Intent i = new Intent(this, MainActivity.class);
-        //startActivity(i);
     }
 
     @Override
     public void onResponse(Object response) {
-
-
-        Log.e("updateAPIToken", "200");
         String tokenLineStartingPattern = "checkForm = '";
         Integer tokenLinePosition = ((String) response).indexOf(tokenLineStartingPattern);
         String tokenLine = ((String) response).substring(tokenLinePosition, tokenLinePosition + 47);
