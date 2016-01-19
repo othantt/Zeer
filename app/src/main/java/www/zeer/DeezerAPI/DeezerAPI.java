@@ -1,32 +1,31 @@
 package www.zeer.DeezerAPI;
 
 import android.content.Context;
-import android.os.SystemClock;
+import android.content.Intent;
 import android.util.Log;
 
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
-import com.android.volley.RequestTickle;
 import com.android.volley.Response;
 import com.android.volley.error.VolleyError;
 import com.android.volley.request.StringRequest;
-import com.android.volley.toolbox.VolleyTickle;
 
 import www.zeer.InitApplication;
-import www.zeer.SearchFragmentPackage.StringResponseListener;
+import www.zeer.MainActivity;
+import www.zeer.StartLoading;
 
 /**
  * Created by root on 1/12/16.
  */
 public class DeezerAPI {
-    private static String _APIToken; // the temporary API token
-
+    private static String _APIToken ;
+    //private StartLoading start;// the temporary API token
     /* Fetch and updates the temporary API token */
-    private static void updateAPIToken(){
+
+    public static void updateAPIToken(StartLoading start){
         Log.d("updateAPIToken()", "Updating temporary API token.");
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, "http://www.deezer.com/",
-                new StringResponseListener(), new Response.ErrorListener() {
+                start, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("updateAPIToken()", "Error fetching API token!");
@@ -61,21 +60,12 @@ public class DeezerAPI {
 
     /* Accessor */
 
-    Thread thread = new Thread() {
-        @Override
-        public void run() {
-            try {
-                while(_APIToken == null) {
-                    sleep(1000);
-                    updateAPIToken();
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    };
 
     public static String getAPIToken(){
         return _APIToken;
+    }
+
+    public static void setAPIToken(String token) {
+        _APIToken = token;
     }
 }
