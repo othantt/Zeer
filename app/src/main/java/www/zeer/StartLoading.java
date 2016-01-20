@@ -8,8 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.toolbox.VolleyTickle;
+
+import java.util.Map;
+import java.util.prefs.Preferences;
 
 import www.zeer.DeezerAPI.DeezerAPI;
 
@@ -35,14 +39,12 @@ public class StartLoading extends FragmentActivity implements Response.Listener{
     }
 
     @Override
-    public void onResponse(Object response) {
-        String tokenLineStartingPattern = "checkForm = '";
+    public void onResponse(Object response) {String tokenLineStartingPattern = "checkForm = '";
         Integer tokenLinePosition = ((String) response).indexOf(tokenLineStartingPattern);
         String tokenLine = ((String) response).substring(tokenLinePosition, tokenLinePosition + 47);
         // Second, we extract the 32 letters and numbers of the token from the line containing it
         DeezerAPI.setAPIToken(tokenLine.substring(tokenLine.indexOf("checkForm = '") + 13, tokenLine.indexOf("';")));
         Log.d("Deezer API token", "(" + DeezerAPI.getAPIToken() + ")");
-
 
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(i);

@@ -17,80 +17,54 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.xml.transform.ErrorListener;
-
 import www.zeer.DeezerAPI.DeezerAPI;
 import www.zeer.InitApplication;
 
 /**
  * Created by root on 1/14/16.
  */
-public class Song implements Response.Listener<JSONObject>, Response.ErrorListener{
-    private int _id;
+public class Song {
+    private Integer _id;
     private String _name;
 
     public Song(int songID){
         this._id = songID;
-        fetchSongInfo(this._id);
+        try {
+            fetchSongInfo(this._id);
+        } catch (JSONException e){};
     }
 
-    private void fetchSongInfo(int songID){
+    private void fetchSongInfo(int songID) throws JSONException{
         String url = "http://www.deezer.com/ajax/gw-light.php?api_version=1.0&api_token=" + DeezerAPI.getAPIToken() + "&input=3";
         Log.e("fetchSongInfo", url);
 
-        HashMap<String, Integer> methodParameters = new HashMap<String, Integer>();
-        methodParameters.put("sng_ids", songID);
-
-        HashMap<String, String> postData = new HashMap<String, String>();
-        postData.put("method", "song.getListData");
-        postData.put("params", methodParameters.toString());
-
-        JSONObject JSONRequestParameters = new JSONObject(postData);
+        JSONArray JSONRequestParameters = new JSONArray("[{\"method\":\"song.getListData\",\"params\":{\"sng_ids\":[" + this._id.toString() + "]}}]");
         Log.e("fetchSongInfo", JSONRequestParameters.toString());
 
-
-
-
-        JsonObjectRequest req = new JsonObjectRequest(
+        JsonArrayRequest req = new JsonArrayRequest(
                 Request.Method.POST,url, JSONRequestParameters,
-                new Response.Listener<JSONObject>() {
+                new Response.Listener<JSONArray>() {
                     @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d("TEST", response.toString());
-
+                    public void onResponse(JSONArray response) {
+                        Log.e("fetchSongInfo:response", response.toString());
                     }
-                }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d("ERROR", "Error: " + error.getMessage());
-
-            }
-        }) {
-
-            /**
-             * Passing some request headers
-             */
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d("ERROR", "Error: " + error.getMessage());
+                    }
+                })
+        {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json; charset=utf-8");
+                //headers.put("Host", "www.deezer.com");
+                headers.put("Cookie", "sid=fr5dcca0a7093fb32238480a8269d751f6508965;"); // session cookie must be set here
                 return headers;
             }
         };
-
         InitApplication.getInstance().getRequestQueue().add(req);
-        Log.e("song", "request added");
-    }
-
-    @Override
-    public void onResponse(JSONObject response){
-        Log.e("RESP", response.toString());
-    }
-
-    @Override
-    public void onErrorResponse(VolleyError error){
-
     }
 
     public int getID(){

@@ -15,6 +15,7 @@ import www.zeer.StartLoading;
  */
 public class DeezerAPI {
     private static String _APIToken ; // the temporary API token
+    private static String _sessionCookie; // the session cookie
 
     /* Fetch and updates the temporary API token */
     public static void updateAPIToken(StartLoading start){
