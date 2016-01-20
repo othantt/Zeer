@@ -5,6 +5,7 @@ import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyLog;
+import com.android.volley.error.AuthFailureError;
 import com.android.volley.error.VolleyError;
 import com.android.volley.request.JsonArrayRequest;
 import com.android.volley.request.JsonObjectRequest;
@@ -14,6 +15,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Map;
+
+import javax.xml.transform.ErrorListener;
 
 import www.zeer.DeezerAPI.DeezerAPI;
 import www.zeer.InitApplication;
@@ -21,7 +25,7 @@ import www.zeer.InitApplication;
 /**
  * Created by root on 1/14/16.
  */
-public class Song {
+public class Song implements Response.Listener<JSONObject>, Response.ErrorListener{
     private int _id;
     private String _name;
 
@@ -44,24 +48,49 @@ public class Song {
         JSONObject JSONRequestParameters = new JSONObject(postData);
         Log.e("fetchSongInfo", JSONRequestParameters.toString());
 
-        JsonObjectRequest req = new JsonObjectRequest
-                (Request.Method.POST, url, JSONRequestParameters, new Response.Listener<JSONObject>() {
 
+
+
+        JsonObjectRequest req = new JsonObjectRequest(
+                Request.Method.POST,url, JSONRequestParameters,
+                new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.e("", "Response: " + response.toString());
+                        Log.d("TEST", response.toString());
+
                     }
                 }, new Response.ErrorListener() {
 
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // TODO Auto-generated method stub
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d("ERROR", "Error: " + error.getMessage());
 
-                    }
-                });
-        // add the request object to the queue to be executed
+            }
+        }) {
+
+            /**
+             * Passing some request headers
+             */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
+            }
+        };
+
         InitApplication.getInstance().getRequestQueue().add(req);
         Log.e("song", "request added");
+    }
+
+    @Override
+    public void onResponse(JSONObject response){
+        Log.e("RESP", response.toString());
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error){
+
     }
 
     public int getID(){
