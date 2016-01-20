@@ -60,7 +60,7 @@ public class Song {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 //headers.put("Host", "www.deezer.com");
-                headers.put("Cookie", "sid=fr5dcca0a7093fb32238480a8269d751f6508965;"); // session cookie must be set here
+                headers.put("Cookie", DeezerAPI.getSessionCookie()); // session cookie must be set here
                 return headers;
             }
         };

@@ -21,13 +21,15 @@ public class DeezerAPI {
     public static void updateAPIToken(StartLoading start){
         Log.d("updateAPIToken()", "Updating temporary API token.");
         // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, "http://www.deezer.com/",
+        DeezerTokenRequest stringRequest = new DeezerTokenRequest(Request.Method.GET, "http://www.deezer.com/",
                 start, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+
                 Log.e("updateAPIToken()", "Error fetching API token!");
             }
         });
+        _sessionCookie = stringRequest.cookie_session;
         // Add the request to the RequestQueue.
         InitApplication.getInstance().getRequestQueue().add(stringRequest);
     }
@@ -38,5 +40,13 @@ public class DeezerAPI {
 
     public static void setAPIToken(String token) {
         _APIToken = token;
+    }
+
+    public static void setCookies(String cookies){
+        _sessionCookie = cookies;
+    }
+
+    public static String getSessionCookie(){
+        return _sessionCookie;
     }
 }
