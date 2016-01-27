@@ -2,13 +2,11 @@ package www.zeer.DeezerAPI;
 
 import android.util.Log;
 
-import com.android.volley.Cache;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.error.VolleyError;
 import com.android.volley.request.StringRequest;
-import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -25,7 +23,6 @@ public class DeezerTokenRequest extends StringRequest{
     String cookie_session;
 
     public DeezerTokenRequest(int method, String url, Response.Listener listener, Response.ErrorListener Errorlistener){
-
         super(method, url, listener, Errorlistener);
         InitApplication.getInstance().getRequestQueue().getCache().clear();
 
@@ -38,10 +35,8 @@ public class DeezerTokenRequest extends StringRequest{
         Map<String, String> responseHeaders = response.headers;
         cookie_session = responseHeaders.get("Set-Cookie");
         DeezerAPI.setCookies(cookie_session);
-        Log.e("Cookies", cookie_session);
+        Log.e("grabbed cookie", "(" + cookie_session + ")" );
         return r;
     }
-
-
 
 }

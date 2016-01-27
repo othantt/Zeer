@@ -49,4 +49,16 @@ public class DeezerAPI {
     public static String getSessionCookie(){
         return _sessionCookie;
     }
+
+    public static String getSongDownloadURL(String id, String quality, String md5, String mediaVersion) {
+        String proxyLetter = md5.substring(0, 1);
+        String separator = "¤";
+        String data = md5 + separator + quality + separator + id + separator + mediaVersion;
+        Log.e("getSongDownloadURL:data", data);
+        String dataHash = CrypterTool.MD5(data);
+        data = CrypterTool.encryptWithAESKey(dataHash + separator + data + separator);
+        String songURL = "";
+        songURL = songURL + "http://e-cdn-proxy-" + proxyLetter + ".deezer.com/mobile/1/" + data;
+            return songURL;
+    }
 }

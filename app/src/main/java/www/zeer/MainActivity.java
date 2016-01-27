@@ -26,7 +26,7 @@ public class MainActivity extends FragmentActivity {
         mViewPager.setAdapter(mMainActivityPagerAdapter);
         mViewPager.setCurrentItem(1);
         
-        Song testSong = new Song(94488788);
+        Song testSong = new Song("94488788");
         testSong.getID();
     }
 }
